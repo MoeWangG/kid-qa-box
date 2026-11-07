@@ -72,7 +72,8 @@
 
 ```
 ai-qa-box/
-├── README.md                  ← 你在看的
+├── README.md                  ← 项目概览（先看这个）
+├── docs/guide.md              ← 你在看的：完整搭建手册
 ├── config.example.json        ← 配置模板（非密钥）
 ├── secrets.json               ← 只有 API key，自己生成，不进 git
 ├── requirements.txt
@@ -278,6 +279,28 @@ sudo systemctl disable --now bluetooth avahi-daemon 2>/dev/null || true
 ```
 
 > 如果 SSH 断了连不上，把 `avahi-daemon` 打开回来：`sudo systemctl enable --now avahi-daemon`
+
+### 关掉 PipeWire（就这一条会让麦克风消失）
+
+新版 Raspberry Pi OS 默认跑 PipeWire。它会占着 USB 声卡的录音设备，
+表现是 `arecord -l` 里 `Subdevices: 0/1`（明明插着却不能用），
+程序里报 "device busy" 或者干脆录到一片静音。
+
+```bash
+# 先看它是不是在跑
+systemctl --user status pipewire pipewire-pulse wireplumber 2>/dev/null | grep Active
+
+# 在跑就全关掉并永久 mask（这台机器不需要桌面音频服务）
+systemctl --user mask --now pipewire pipewire-pulse wireplumber
+
+# 拔插一次 USB 声卡，然后确认
+arecord -l        # 应该看到 Subdevices: 1/1
+aplay -l
+```
+
+> 如果 `systemctl --user` 报 "Failed to connect to bus"（SSH 会话里常见），
+> 说明当前 shell 没有 user session。用 `sudo -u <你的用户名> XDG_RUNTIME_DIR=/run/user/$(id -u <用户名>) systemctl --user mask pipewire pipewire-pulse wireplumber`，
+> 或者直接在树莓派桌面终端里跑一遍。
 
 ---
 

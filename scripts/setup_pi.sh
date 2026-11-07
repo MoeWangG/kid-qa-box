@@ -41,7 +41,7 @@ for pkg in "${HARD_DEPS[@]}"; do
       echo
       echo "  ! $pkg 装不上。这是系统库，pip 装不了。"
       echo "    检查 apt 源是否正常：sudo apt update 有没有报错"
-      echo "    实在不行换源（清华）：见 README 第 4 节"
+      echo "    实在不行换源（清华）：见 docs/guide.md 第 4 节"
     fi
   done
 done
@@ -51,17 +51,18 @@ echo
 echo "==> 2/4 用 pip 补齐 apt 没装上的 Python 包"
 pip_install() {
   local mod="$1"
+  local spec="${2:-$1}"
   if python3 -c "import $mod" 2>/dev/null; then
     echo "  ✓ $mod 已可用"
     return 0
   fi
-  echo "  … 装 $mod"
-  if python3 -m pip install --user --quiet "$mod" 2>/dev/null; then
-    echo "  ✓ $mod（--user）"
-  elif python3 -m pip install --user --quiet --break-system-packages "$mod" 2>/dev/null; then
-    echo "  ✓ $mod（--user --break-system-packages）"
+  echo "  … 装 $spec"
+  if python3 -m pip install --user --quiet "$spec" 2>/dev/null; then
+    echo "  ✓ $spec（--user）"
+  elif python3 -m pip install --user --quiet --break-system-packages "$spec" 2>/dev/null; then
+    echo "  ✓ $spec（--user --break-system-packages）"
   else
-    echo "  ✗ $mod 装不上"
+    echo "  ✗ $spec 装不上"
     return 1
   fi
 }
@@ -69,7 +70,7 @@ pip_install requests || true
 pip_install numpy || true
 pip_install sounddevice || true
 pip_install gpiozero || true
-pip_install dashscope || true
+pip_install dashscope "dashscope>=1.20,<2" || true
 # lgpio 是 gpiozero 的后端，pip 包名就叫 lgpio（需要编译，apt 优先）
 python3 -c "import lgpio" 2>/dev/null || pip_install lgpio || true
 
@@ -91,9 +92,9 @@ try:
     import lgpio  # noqa: F401
     print("  ✓ lgpio（按键后端）")
 except Exception as e:
-    print(f"  ? lgpio 不可用：{e}  → 按键那一步会失败，见 README 排错")
+    print(f"  ? lgpio 不可用：{e}  → 按键那一步会失败，见 docs/guide.md 第 9 节")
 if not ok:
-    print("\n有包没装上。退路：venv 路线（见 README 5.2）")
+    print("\n有包没装上。退路：venv 路线（见 docs/guide.md 5.2）")
 raise SystemExit(0)
 PY
 
@@ -123,6 +124,6 @@ cat <<'TIP'
 全都没装上时的退路（venv）：
   sudo apt install -y python3-venv libportaudio2
   python3 -m venv --system-site-packages .venv
-  .venv/bin/pip install requests sounddevice numpy dashscope
+  .venv/bin/pip install requests sounddevice numpy "dashscope>=1.20,<2"
   之后所有 python3 换成 .venv/bin/python
 TIP

@@ -4,7 +4,7 @@ answer_oneshot  —— 档 A：ASR -> LLM 整段 -> TTS 整段 -> 播放。慢�
 answer_stream   —— 档 A+：LLM 流式切句，TTS 并发，按序边播。用同一批 HTTP 接口就能快 1.5~2s。
 
 档 B（真·全流式，ASR 和 TTS 都换成厂商 WebSocket 协议）不在这里，
-因为每家的二进制协议都不一样，抄不了通用代码。见 README 第 12 节。
+因为每家的二进制协议都不一样，抄不了通用代码。见 docs/guide.md 第 10 节。
 """
 
 from __future__ import annotations

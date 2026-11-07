@@ -7,7 +7,9 @@ numpy>=1.24
 gpiozero>=2.0; sys_platform == "linux"
 
 # 语音走阿里云百炼，用官方 SDK（WebSocket / 鉴权 / 重试都在 SDK 里）
-dashscope>=1.20
+# 必须 <2：dashscope 2.x 引入 tiktoken / pydantic-core（Rust 编译），
+# 树莓派 3B 只有 1GB 内存，pip 装到一半会被 OOM kill。
+dashscope>=1.20,<2
 # dashscope 的底层连接用 websocket-client；某些环境不会自动装
 websocket-client>=1.6
 # 树莓派上系统证书库有时缺，导致 TLS 校验失败
