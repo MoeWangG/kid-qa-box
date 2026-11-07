@@ -1,0 +1,19 @@
+# --- 密钥与个人配置（绝不提交） ---
+config.json
+secrets.json
+
+# --- 运行时产物（含孩子的对话与音频） ---
+cache/
+aibox.jsonl
+recordings/
+assets/
+*.wav
+
+# --- 环境 ---
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# --- 本地临时文件 ---
+docs/images/_*

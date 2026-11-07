@@ -1,0 +1,49 @@
+{
+  "asr": {
+    "kind": "ali",
+    "model": "paraformer-realtime-v2",
+    "sample_rate": 16000,
+    "base_url": ""
+  },
+  "llm": {
+    "kind": "openai",
+    "base_url": "https://api.deepseek.com/v1/chat/completions",
+    "model": "deepseek-chat",
+    "system_prompt": "你是给小学生用的语音问答助手（默认按 8 岁左右，请改成你孩子的年龄）。规则：\n1. 只说 2 句话，总数不超过 35 个字。说完就停。\n2. 用小孩能懂的话。最多打一个比方，不要每句都打。\n3. 只输出要念出来的内容：不要 markdown、不要括号、不要表情符号、不要列表、不要分点。\n4. 先直接给答案，再补一句原因。别铺垫，别反问，别说\"好问题\"。\n5. 你不知道的事（今天天气、现在几点、最近新闻、比赛比分），直接说\"这个我不知道\"，再给一句该怎么办。绝对不要猜，也不要编。",
+    "max_tokens": 200,
+    "temperature": 0.7,
+    "payload_extra": {},
+    "inject_time": true
+  },
+  "tts": {
+    "kind": "ali",
+    "model": "cosyvoice-v2",
+    "format": "WAV_24000HZ_MONO_16BIT",
+    "speed": 1.0,
+    "base_url": "",
+    "voice": "longxiaochun_v2"
+  },
+  "audio": {
+    "samplerate": 16000,
+    "input_device": null,
+    "output_device": null
+  },
+  "button": {
+    "gpio": 17,
+    "min_record_sec": 0.4,
+    "max_record_sec": 20,
+    "led_gpio": 27
+  },
+  "runtime": {
+    "history_turns": 20,
+    "cache_enabled": true,
+    "cache_dir": "./cache",
+    "greeting_wav": "./assets/greeting.wav",
+    "log_path": "./aibox.jsonl",
+    "history_max_chars": 1500,
+    "tts_concurrency": 2,
+    "meow_wav": null,
+    "meow_delay_sec": 1.0,
+    "greeting_text": "嗨，今天有什么想聊的？"
+  }
+}

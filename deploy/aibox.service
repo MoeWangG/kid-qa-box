@@ -1,0 +1,32 @@
+[Unit]
+Description=AI QA Box (voice question answering for kid)
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/ai-qa-box
+Environment=PYTHONUNBUFFERED=1
+Environment=AIBOX_CONFIG=/home/pi/ai-qa-box/config.json
+# 等 USB 声卡枚举完（3B 上开机后要几秒）
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/bin/python3 scripts/step7_stream.py
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
+# 装法：
+#   sudo cp deploy/aibox.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now aibox
+#   journalctl -u aibox -f          # 看日志
+#
+# 如果用了 venv，把 ExecStart 改成：
+#   ExecStart=/home/pi/ai-qa-box/.venv/bin/python scripts/step7_stream.py
+#
+# 用户名不是 pi 的话，改 User= 那一行（用 whoami 查）。

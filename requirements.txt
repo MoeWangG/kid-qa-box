@@ -1,0 +1,14 @@
+# 运行时依赖。树莓派上更推荐直接跑 `bash scripts/setup_pi.sh`，
+# 那个脚本会先试 apt、再用 pip 兜底，比单纯 pip 装稳。
+
+requests>=2.31
+sounddevice>=0.4.6
+numpy>=1.24
+gpiozero>=2.0; sys_platform == "linux"
+
+# 语音走阿里云百炼，用官方 SDK（WebSocket / 鉴权 / 重试都在 SDK 里）
+dashscope>=1.20
+# dashscope 的底层连接用 websocket-client；某些环境不会自动装
+websocket-client>=1.6
+# 树莓派上系统证书库有时缺，导致 TLS 校验失败
+certifi
