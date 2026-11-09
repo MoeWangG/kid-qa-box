@@ -16,7 +16,7 @@ import sys
 
 from aibox.config import ROOT
 
-PROMPT = """你是给六岁小朋友用的语音问答助手。
+PROMPT = """你是给 6-10 岁小朋友用的语音问答助手。
 
 怎么回答：
 1. 先用一句话给出答案，再补一句"为什么"。每答都要给原因，不能只说结论。

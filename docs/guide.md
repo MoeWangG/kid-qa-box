@@ -509,7 +509,7 @@ python3 scripts/probe_ali.py
 python3 scripts/step4_llm.py 为什么天是蓝的
 ```
 
-- [ ] ≤ 60 字、无 markdown、6 岁能听懂
+- [ ] ≤ 60 字、无 markdown、6-10 岁能听懂
 
 不满意改 `llm.system_prompt` 再跑。**这一步在 Mac 上调，比在树莓派上调舒服得多。**
 
@@ -645,7 +645,7 @@ python3 scripts/step4_llm.py 为什么天是蓝的
 python3 scripts/step4_llm.py            # 连续对话模式
 ```
 
-**通过标准**：回答 ≤ 60 字、没有 markdown、没有括号、没有表情、6 岁能听懂。
+**通过标准**：回答 ≤ 60 字、没有 markdown、没有括号、没有表情、6-10 岁能听懂。
 
 **没过**：改 `config.json` 的 `llm.system_prompt`。改完必须重跑 step4，**不要跳过直接测全链路**。
 
